@@ -9,10 +9,13 @@ const { errorHandler } = require('./middleware/errorHandler');
 connectDB();
 
 const app = express();
-
+const allowedOrigins = [
+  'http://localhost:5173', // Keep for local development
+  'https://translite-frontend.vercel.app' // Replace with your exact live Vercel URL
+];
 // Global Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true // Adjust this to your frontend's origin
 }));
 app.use(express.json());
