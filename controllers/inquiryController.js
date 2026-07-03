@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Inquiry = require('../models/Inquiry');
 const nodemailer = require('nodemailer');
 
@@ -15,7 +16,7 @@ const transporter = nodemailer.createTransport({
 // @access  Public
 const submitInquiry = async (req, res, next) => {
   try {
-    const { name, mobileNumber, requirement } = req.body;
+    const { name, mobileNumber, requirement, email} = req.body;
 
     if (!name || !mobileNumber || !requirement) {
       res.status(400);
@@ -26,14 +27,18 @@ const submitInquiry = async (req, res, next) => {
     const newInquiry = await Inquiry.create({
       name,
       mobileNumber,
+      email,
       requirement
     });
 
+    console.log("Successfully saved to database:", newInquiry);
 // 2. Send Email Notification
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
-      subject: `🚨 New Lead from ${name} - Translite Fiber Gallery`,
+
+      replyTo: req.body.email || process.env.EMAIL_USER, // Use the user's email if provided, else default to your email
+      subject: `🚨 New Lead from ${name} for - Translite Fiber Gallery`,
       html: `
         <h2>New Quote Request</h2>
         <p><strong>Customer:</strong> ${name}</p>
