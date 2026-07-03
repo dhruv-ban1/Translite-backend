@@ -16,8 +16,8 @@ const loginAdmin = async (req, res, next) => {
       // 2. Lock it in an HTTP-Only Cookie
       res.cookie('jwt', token, {
         httpOnly: true,
-        secure: false, // Use HTTPS in production
-        sameSite: 'lax', // Prevents CSRF attacks
+        secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // Prevents CSRF attacks
         maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
       });
 

@@ -11,7 +11,9 @@ connectDB();
 const app = express();
 const allowedOrigins = [
   'http://localhost:5173', // Keep for local development
-  'https://translite-frontend.vercel.app' // Replace with your exact live Vercel URL
+  'https://translite-frontend.vercel.app',
+  'https://fibergallery.in',
+  'https://www.fibergallery.in' // Replace with your exact live Vercel URL
 ];
 // Global Middleware
 app.use(cors({
